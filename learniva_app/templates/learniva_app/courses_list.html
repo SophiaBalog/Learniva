@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список курсів | Learniva</title>
+
+    <link rel="stylesheet" href="{% static 'learniva_app/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Доступні курси</h1>
+
+        {% if courses %}
+            <ul class="course-list">
+            {% for course in courses %}
+                <li class="course-card">
+                    <div class="course-title">{{ course.title }}</div>
+                    <div class="course-category">Категорія: {{ course.categoty }}</div>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-message">Курсів поки немає. Додайте їх через адмін-панель!</p>
+        {% endif %}
+    </div>
+</body>
+</html>
