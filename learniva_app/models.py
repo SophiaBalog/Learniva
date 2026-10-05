@@ -4,8 +4,8 @@ from django.db import models
 class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
-    decription = models.TextField(blank=True, null=True)
-    categoty = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=50, blank=True, null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     image = models.CharField(max_length=45, blank=True, null=True)
 

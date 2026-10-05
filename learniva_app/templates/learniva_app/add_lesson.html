@@ -1,0 +1,35 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Додати урок | {{ course.title }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'course_detail' course.course_id %}">&larr; Назад до курсу</a>
+    
+    <h2>Додати новий урок до курсу: "{{ course.title }}"</h2>
+
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Назва уроку:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.order_number.id_for_label }}">Порядковий номер:</label>
+            {{ form.order_number }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.video_url.id_for_label }}">Посилання на відео:</label>
+            {{ form.video_url }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">Зміст уроку:</label>
+            {{ form.content }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зберегти урок</button>
+    </form>
+{% endblock %}

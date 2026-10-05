@@ -1,0 +1,13 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Видалення курсу{% endblock %}
+
+{% block content %}
+    <h1>Видалення курсу</h1>
+    <p>Ви впевнені, що хочете видалити курс <strong>"{{ course.title }}"</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">Так, видалити</button>
+        <a href="{% url 'courses_list' %}" class="btn">Скасувати</a>
+    </form>
+{% endblock %}

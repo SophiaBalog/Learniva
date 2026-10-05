@@ -1,0 +1,12 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Додати курс | Learniva{% endblock %}
+
+{% block content %}
+    <h1>Створити новий курс</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Зберегти курс</button>
+    </form>
+{% endblock %}

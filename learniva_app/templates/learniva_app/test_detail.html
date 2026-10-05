@@ -1,0 +1,42 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Тест: {{ test.title }} | Learniva{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lesson_detail' test.lessons_lessons.lessons_id %}">&larr; Повернутися до уроку</a>
+
+    <div class="test-container" style="max-width: 700px; margin: 20px auto;">
+        <h1>{{ test.title }}</h1>
+        <p>Пройдіть тест для перевірки засвоєного матеріалу.</p>
+
+        {% if questions %}
+            <form method="post" action="{% url 'test_detail' test.test_id %}">
+                {% csrf_token %}
+
+                {% for question in questions %}
+                    <div class="question-card" style="background: #ffffff; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e0e0e0;">
+                        <h3>{{ question.order_number }}. {{ question.question_text }}</h3>
+
+                        <div class="answers-group" style="margin-top: 10px;">
+                            {% for answer in question.answers %}
+                                <div style="margin-bottom: 8px;">
+                                    <label style="cursor: pointer;">
+                                        <input type="radio" 
+                                               name="question_{{ question.question_id }}" 
+                                               value="{{ answer }}" 
+                                               required>
+                                        {{ answer }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn" style="padding: 12px 24px; font-size: 16px;">Завершити тест</button>
+            </form>
+        {% else %}
+            <p>У цьому тесті ще немає питань.</p>
+        {% endif %}
+    </div>
+{% endblock %}

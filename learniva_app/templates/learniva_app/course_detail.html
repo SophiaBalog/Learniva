@@ -1,0 +1,32 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}{{ course.title }} | Learniva{% endblock %}
+
+{% block content %}
+    <a href="{% url 'courses_list' %}">&larr; До списку курсів</a>
+    
+    <div class="course-header" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+        <h1>{{ course.title }}</h1>
+        <a href="{% url 'add_lesson' course.course_id %}" class="btn">+ Додати урок</a>
+    </div>
+
+    <p><em>Категорія: {{ course.category|default:"Загальна" }}</em></p>
+    <p>{{ course.description|default:"Опис відсутній." }}</p>
+
+    <hr>
+    
+    <h2>Уроки курсу</h2>
+    {% if lessons %}
+        <ol class="lessons-list">
+        {% for lesson in lessons %}
+            <li>
+                <a href="{% url 'lesson_detail' lesson.lessons_id %}">
+                    {{ lesson.title }}
+                </a>
+            </li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p>До цього курсу ще не додано уроків.</p>
+    {% endif %}
+{% endblock %}

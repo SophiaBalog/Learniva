@@ -1,28 +1,23 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Список курсів | Learniva</title>
+{% extends 'learniva_app/base.html' %}
 
-    <link rel="stylesheet" href="{% static 'learniva_app/style.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1>Доступні курси</h1>
+{% block title %}Список курсів | Learniva{% endblock %}
 
-        {% if courses %}
-            <ul class="course-list">
-            {% for course in courses %}
-                <li class="course-card">
-                    <div class="course-title">{{ course.title }}</div>
-                    <div class="course-category">Категорія: {{ course.categoty }}</div>
-                </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p class="empty-message">Курсів поки немає. Додайте їх через адмін-панель!</p>
-        {% endif %}
+{% block content %}
+    <h1>Доступні курси</h1>
+    
+    <div class="courses-grid">
+    {% for course in courses %}
+        <div class="course-card">
+            <h3>{{ course.title }}</h3>
+            <p><strong>Категорія:</strong> {{ course.categoty|default:"Без категорії" }}</p>
+            <p>{{ course.decription|truncatewords:20 }}</p>
+            <div class="card-actions">
+                <a href="{% url 'course_detail' course.course_id %}" class="btn">Переглянути</a>
+                <a href="{% url 'course_delete' course.course_id %}" class="btn-danger">Видалити</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Курсів поки немає.</p>
+    {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}
