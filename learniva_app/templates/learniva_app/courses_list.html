@@ -9,8 +9,8 @@
     {% for course in courses %}
         <div class="course-card">
             <h3>{{ course.title }}</h3>
-            <p><strong>Категорія:</strong> {{ course.categoty|default:"Без категорії" }}</p>
-            <p>{{ course.decription|truncatewords:20 }}</p>
+            <p><strong>Категорія:</strong> {{ course.category|default:"Без категорії" }}</p>
+            <p>{{ course.description|truncatewords:20 }}</p>
             <div class="card-actions">
                 <a href="{% url 'course_detail' course.course_id %}" class="btn">Переглянути</a>
                 <a href="{% url 'course_delete' course.course_id %}" class="btn-danger">Видалити</a>
@@ -21,3 +21,4 @@
     {% endfor %}
     </div>
 {% endblock %}
+

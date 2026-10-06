@@ -1,0 +1,10 @@
+{% extends 'learniva_app/base.html' %}
+{% block content %}
+    <a href="{% url 'lesson_detail' lesson.lessons_id %}">&larr; До уроку</a>
+    <h2>Новий тест для уроку «{{ lesson.title }}»</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Далі: додати питання</button>
+    </form>
+{% endblock %}

@@ -3,13 +3,12 @@
 {% block title %}{{ lesson.title }} | Learniva{% endblock %}
 
 {% block content %}
-    <!-- Кнопка повернення до курсу -->
+
     <a href="{% url 'course_detail' lesson.courses_course.course_id %}" class="back-link">
         &larr; Назад до курсу: "{{ lesson.courses_course.title }}"
     </a>
 
     <div class="lesson-container">
-        <!-- Заголовок уроку та кнопки керування (Редагувати / Видалити) -->
         <div class="lesson-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <div>
                 <span class="lesson-badge">Урок №{{ lesson.order_number }}</span>
@@ -27,24 +26,16 @@
             <div class="video-section">
                 <h3>Відеоматеріал</h3>
                 <div class="video-wrapper">
-                    {% if "youtube.com" in lesson.video_url or "youtu.be" in lesson.video_url %}
-                        <!-- Якщо посилання з YouTube, відображаємо плеєр -->
-                        <iframe 
-                            src="{{ lesson.video_url }}" 
-                            title="{{ lesson.title }}"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
+                    {% if lesson.embed_url %}
+                        <iframe src="{{ lesson.embed_url }}" title="{{ lesson.title }}"
+                            frameborder="0" allowfullscreen></iframe>
                     {% else %}
-                        <!-- Пряме посилання на відео ресурс -->
                         <p>Посилання на відео: <a href="{{ lesson.video_url }}" target="_blank" rel="noopener">{{ lesson.video_url }}</a></p>
                     {% endif %}
                 </div>
             </div>
         {% endif %}
 
-        <!-- Зміст / Опис уроку -->
         <div class="lesson-body" style="margin-top: 20px;">
             <h3>Зміст уроку</h3>
             <div class="lesson-content">

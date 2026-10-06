@@ -1,9 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import CourseForm, LessonForm
+from .forms import CourseForm, LessonForm, TestForm, QuestionForm
 from .models import Courses, Lessons, Questions, TestResults, Tests, UserCourses, Users
 
 
-# 1. Список усіх курсів
 def courses_list(request):
     courses = Courses.objects.all().order_by('-create_at')
     return render(
@@ -11,7 +10,6 @@ def courses_list(request):
     )
 
 
-# 2. Деталі курсу зі списком уроків
 def course_detail(request, course_id):
     course = get_object_or_404(Courses, course_id=course_id)
     lessons = Lessons.objects.filter(courses_course=course).order_by('order_number')
@@ -22,7 +20,6 @@ def course_detail(request, course_id):
     )
 
 
-# 3. Перегляд окремого уроку та пов'язаних тестів
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lessons, pk=lesson_id)
     tests = Tests.objects.filter(lessons_lessons=lesson)
@@ -33,7 +30,6 @@ def lesson_detail(request, lesson_id):
     )
 
 
-# 4. Проходження тесту та перевірка відповідей
 def test_detail(request, test_id):
     test = get_object_or_404(Tests, pk=test_id)
     questions = Questions.objects.filter(tests_test=test).order_by('order_number')
@@ -83,7 +79,6 @@ def test_detail(request, test_id):
     )
 
 
-# 5. Створення нового курсу
 def course_create(request):
     if request.method == 'POST':
         form = CourseForm(request.POST)
@@ -95,7 +90,6 @@ def course_create(request):
     return render(request, 'learniva_app/course_form.html', {'form': form})
 
 
-# 6. Видалення курсу
 def course_delete(request, course_id):
     course = get_object_or_404(Courses, course_id=course_id)
     if request.method == 'POST':
@@ -106,7 +100,6 @@ def course_delete(request, course_id):
     )
 
 
-# 7. Додавання уроку до курсу
 def add_lesson(request, course_id):
     course = get_object_or_404(Courses, pk=course_id)
 
@@ -127,7 +120,6 @@ def add_lesson(request, course_id):
     )
 
 
-# 8. Редагування уроку
 def edit_lesson(request, lesson_id):
     lesson = get_object_or_404(Lessons, pk=lesson_id)
     if request.method == 'POST':
@@ -144,7 +136,6 @@ def edit_lesson(request, lesson_id):
     )
 
 
-# 9. Видалення уроку
 def delete_lesson(request, lesson_id):
     lesson = get_object_or_404(Lessons, pk=lesson_id)
     course_id = lesson.courses_course.course_id
@@ -154,3 +145,28 @@ def delete_lesson(request, lesson_id):
     return render(
         request, 'learniva_app/delete_lesson.html', {'lesson': lesson}
     )
+
+
+def add_test(request, lesson_id):
+    lesson = get_object_or_404(Lessons, pk=lesson_id)
+    form = TestForm(request.POST or None)
+    if form.is_valid():
+        test = form.save(commit=False)
+        test.lessons_lessons = lesson
+        test.save()
+        return redirect('add_question', test_id=test.test_id)
+    return render(request, 'learniva_app/add_test.html', {'form': form, 'lesson': lesson})
+
+
+def add_question(request, test_id):
+    test = get_object_or_404(Tests, pk=test_id)
+    form = QuestionForm(request.POST or None)
+    if form.is_valid():
+        question = form.save(commit=False)
+        question.tests_test = test
+        question.save()
+        # Кнопка "Додати ще питання" повертає на цю ж сторінку
+        if 'add_more' in request.POST:
+            return redirect('add_question', test_id=test.test_id)
+        return redirect('lesson_detail', lesson_id=test.lessons_lessons_id)
+    return render(request, 'learniva_app/add_question.html', {'form': form, 'test': test})

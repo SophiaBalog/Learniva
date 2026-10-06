@@ -1,4 +1,5 @@
 from django.db import models
+import re
 
 
 class Courses(models.Model):
@@ -34,6 +35,16 @@ class Lessons(models.Model):
 
     def __str__(self):
         return f"{self.courses_course.title} — {self.title}"
+
+    @property
+    def embed_url(self):
+        if not self.video_url:
+            return None
+        match = re.search(r'(?:youtu\.be/|v=|embed/)([\w-]{11})', self.video_url)
+        return f'https://www.youtube.com/embed/{match.group(1)}' if match else None
+
+
+
 
 
 class Users(models.Model):
