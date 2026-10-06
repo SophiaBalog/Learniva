@@ -9,10 +9,17 @@
     </a>
 
     <div class="lesson-container">
-        <!-- Заголовок уроку -->
-        <div class="lesson-header">
-            <span class="lesson-badge">Урок №{{ lesson.order_number }}</span>
-            <h1>{{ lesson.title }}</h1>
+        <!-- Заголовок уроку та кнопки керування (Редагувати / Видалити) -->
+        <div class="lesson-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <span class="lesson-badge">Урок №{{ lesson.order_number }}</span>
+                <h1 style="margin-top: 5px;">{{ lesson.title }}</h1>
+            </div>
+            
+            <div class="lesson-actions" style="display: flex; gap: 10px;">
+                <a href="{% url 'edit_lesson' lesson.lessons_id %}" class="btn" style="background-color: #f39c12; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">Редагувати</a>
+                <a href="{% url 'delete_lesson' lesson.lessons_id %}" class="btn-danger" style="background-color: #e74c3c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">Видалити</a>
+            </div>
         </div>
 
         <!-- Відеоплеєр (якщо додано video_url) -->
@@ -38,7 +45,7 @@
         {% endif %}
 
         <!-- Зміст / Опис уроку -->
-        <div class="lesson-body">
+        <div class="lesson-body" style="margin-top: 20px;">
             <h3>Зміст уроку</h3>
             <div class="lesson-content">
                 {% if lesson.content %}
@@ -49,17 +56,21 @@
             </div>
         </div>
 
-        <hr>
+        <hr style="margin: 30px 0;">
 
-        <!-- Розділ тестів -->
+
         <div class="tests-section">
-            <h3>Тестування за матеріалом</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">Тестування за матеріалом</h3>
+                <a href="{% url 'add_test' lesson.lessons_id %}" class="btn" style="background-color: #27ae60; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">+ Додати тест</a>
+            </div>
+
             {% if tests %}
-                <ul class="tests-list">
+                <ul class="tests-list" style="list-style: none; padding: 0;">
                     {% for test in tests %}
-                        <li class="test-item">
-                            <span>{{ test.title }} (Питань: {{ test.questions_count|default:"—" }})</span>
-                            <a href="{% url 'test_detail' test.test_id %}" class="btn">Пройти тест</a>
+                        <li class="test-item" style="display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; padding: 12px 18px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #e9ecef;">
+                            <span><strong>{{ test.title }}</strong> (Питань: {{ test.questions_count|default:"—" }})</span>
+                            <a href="{% url 'test_detail' test.test_id %}" class="btn" style="background-color: #3498db; color: white; text-decoration: none; padding: 6px 14px; border-radius: 4px;">Пройти тест</a>
                         </li>
                     {% endfor %}
                 </ul>

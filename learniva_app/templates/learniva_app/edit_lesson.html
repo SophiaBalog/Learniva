@@ -1,0 +1,41 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Редагувати урок | {{ lesson.title }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lesson_detail' lesson.lessons_id %}">&larr; Скасувати та повернутися до уроку</a>
+
+    <div class="form-container" style="max-width: 700px; margin: 20px auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <h2>Редагування уроку: "{{ lesson.title }}"</h2>
+        <p><em>Курс: {{ lesson.courses_course.title }}</em></p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="{{ form.title.id_for_label }}"><strong>Назва уроку:</strong></label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="{{ form.order_number.id_for_label }}"><strong>Порядковий номер:</strong></label>
+                {{ form.order_number }}
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="{{ form.video_url.id_for_label }}"><strong>Посилання на відео:</strong></label>
+                {{ form.video_url }}
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="{{ form.content.id_for_label }}"><strong>Зміст уроку:</strong></label>
+                {{ form.content }}
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn">Зберегти зміни</button>
+                <a href="{% url 'lesson_detail' lesson.lessons_id %}" class="btn-secondary" style="padding: 8px 16px; text-decoration: none; border-radius: 5px; background: #6c757d; color: white;">Скасувати</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

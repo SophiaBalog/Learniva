@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="{% static 'learniva_app/style.css' %}">
 </head>
 <body>
-    <header class="navbar">
+    <nav class="navbar">
         <a href="{% url 'courses_list' %}" class="logo">Learniva</a>
-        <nav>
-            <a href="{% url 'courses_list' %}">Всі курси</a>
-            <a href="{% url 'course_create' %}" class="btn">+ Додати курс</a>
-        </nav>
-    </header>
+        <ul>
+            <li><a href="{% url 'courses_list' %}">Курси</a></li>
+            <li><a href="{% url 'course_create' %}">+ Створити курс</a></li>
+        </ul>
+    </nav>
 
-    <main class="container">
+    <div class="container">
         {% block content %}{% endblock %}
-    </main>
+    </div>
 </body>
 </html>

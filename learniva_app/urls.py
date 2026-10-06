@@ -20,4 +20,10 @@ urlpatterns = [
         name='add_lesson',
     ),
     path('tests/<int:test_id>/', views.test_detail, name='test_detail'),
+    path('lessons/<int:lesson_id>/edit/', views.edit_lesson, name='edit_lesson'),
+    path(
+        'lessons/<int:lesson_id>/delete/',
+        views.delete_lesson,
+        name='delete_lesson',
+    ),
 ]

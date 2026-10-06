@@ -1,0 +1,25 @@
+{% extends 'learniva_app/base.html' %}
+
+{% block title %}Видалення уроку | {{ lesson.title }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'lesson_detail' lesson.lessons_id %}">&larr; Скасувати та повернутися</a>
+
+    <div class="delete-container" style="max-width: 500px; margin: 40px auto; background: #ffffff; padding: 30px; border-radius: 8px; border-top: 4px solid #e74c3c; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center;">
+        <h2 style="color: #c0392b;">Підтвердження видалення</h2>
+        <p style="font-size: 16px; margin: 20px 0;">
+            Ви дійсно бажаєте видалити урок <strong>"{{ lesson.title }}"</strong>?
+        </p>
+        <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 25px;">
+            Ця дія незворотна. Усі пов'язані тести та матеріали уроку також будуть видалені.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button type="submit" class="btn-danger" style="background-color: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 15px;">Так, видалити урок</button>
+                <a href="{% url 'lesson_detail' lesson.lessons_id %}" class="btn-secondary" style="padding: 10px 20px; text-decoration: none; border-radius: 5px; background: #95a5a6; color: white; font-size: 15px;">Скасувати</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
