@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import CourseForm, LessonForm, TestForm, QuestionForm
-from .models import Courses, Lessons, Questions, TestResults, Tests, UserCourses, Users
+from .models import Courses, Lessons, Questions, TestResults, Tests, UserCourses
 
 
 def courses_list(request):
@@ -52,10 +52,10 @@ def test_detail(request, test_id):
                 'is_correct': is_correct,
             })
 
-        default_user = Users.objects.first()
-        if default_user:
+        user=request.user
+        if user:
             TestResults.objects.create(
-                score=score, users_user=default_user, tests_test=test
+                score=score, users_user=user, tests_test=test
             )
 
         return render(

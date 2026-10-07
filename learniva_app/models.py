@@ -1,6 +1,6 @@
 from django.db import models
 import re
-
+from django.conf import settings
 
 class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
@@ -47,21 +47,6 @@ class Lessons(models.Model):
 
 
 
-class Users(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.CharField(unique=True, max_length=100)
-    password = models.CharField(max_length=255)
-    create_at = models.DateTimeField(auto_now_add=True)
-    avatar = models.CharField(max_length=100, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'users'
-        verbose_name_plural = 'Users'
-
-    def __str__(self):
-        return self.name
 
 
 class Tests(models.Model):
@@ -97,31 +82,25 @@ class Questions(models.Model):
     def __str__(self):
         return self.question_text
 
-
 class TestResults(models.Model):
     result_id = models.AutoField(primary_key=True)
     score = models.IntegerField()
     complete_at = models.DateTimeField(auto_now_add=True)
-    users_user = models.ForeignKey(Users, on_delete=models.CASCADE, db_column='users_user_id')
-    tests_test = models.ForeignKey(Tests, on_delete=models.CASCADE, db_column='tests_test_id')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    test = models.ForeignKey(Tests, on_delete=models.CASCADE)
 
     class Meta:
-        managed = True
         db_table = 'test_results'
         verbose_name_plural = "Test_results"
 
 
 class UserCourses(models.Model):
     user_courses_id = models.AutoField(primary_key=True)
-    course = models.ForeignKey(Courses, on_delete=models.CASCADE, db_column='course_id')
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     enrolled_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20)
-    users_user = models.ForeignKey(Users, on_delete=models.CASCADE, db_column='users_user_id')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
-        managed = True
         db_table = 'user_courses'
         verbose_name_plural = "User_courses"
-
-    def __str__(self):
-        return f"{self.users_user.name} — {self.course.title}"
