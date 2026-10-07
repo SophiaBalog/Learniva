@@ -184,6 +184,14 @@ def signup(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user = form.save()
-        login(request, user)          # одразу входимо після реєстрації
+        login(request, user)  
         return redirect('courses_list')
     return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def my_results(request):
+    results = (TestResults.objects
+               .filter(user=request.user)
+               .select_related('test')
+               .order_by('-complete_at'))
+    return render(request, 'learniva_app/my_results.html', {'results': results})

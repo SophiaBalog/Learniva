@@ -1,0 +1,11 @@
+{% extends 'learniva_app/base.html' %}
+{% block content %}
+    <h1>Мої результати</h1>
+    <ul>
+    {% for r in results %}
+        <li>{{ r.test.title }} — {{ r.score }} балів ({{ r.complete_at|date:"d.m.Y H:i" }})</li>
+    {% empty %}
+        <li>Ви ще не проходили тестів.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
