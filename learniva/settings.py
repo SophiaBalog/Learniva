@@ -62,6 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'learniva_app.context_processors.user_role'
             ],
         },
     },
@@ -143,3 +144,8 @@ MAILERS = {
     },
 }
 
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'courses_list'
+LOGOUT_REDIRECT_URL = 'courses_list'

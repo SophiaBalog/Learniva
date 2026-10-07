@@ -7,12 +7,15 @@
     
     <div class="course-header" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
         <h1>{{ course.title }}</h1>
+        {% if is_teacher %}
         <a href="{% url 'add_lesson' course.course_id %}" class="btn">+ Додати урок</a>
+        <a href="{% url 'course_edit' course.course_id %}" class="btn">Редагувати курс</a>
+        {% endif %}
     </div>
 
     <p><em>Категорія: {{ course.category|default:"Загальна" }}</em></p>
     <p>{{ course.description|default:"Опис відсутній." }}</p>
-
+    
     <hr>
     
     <h2>Уроки курсу</h2>

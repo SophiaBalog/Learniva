@@ -14,14 +14,14 @@
                 <span class="lesson-badge">Урок №{{ lesson.order_number }}</span>
                 <h1 style="margin-top: 5px;">{{ lesson.title }}</h1>
             </div>
-            
+            {% if is_teacher %}
             <div class="lesson-actions" style="display: flex; gap: 10px;">
                 <a href="{% url 'edit_lesson' lesson.lessons_id %}" class="btn" style="background-color: #f39c12; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">Редагувати</a>
                 <a href="{% url 'delete_lesson' lesson.lessons_id %}" class="btn-danger" style="background-color: #e74c3c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">Видалити</a>
             </div>
+            {% endif %}
         </div>
 
-        <!-- Відеоплеєр (якщо додано video_url) -->
         {% if lesson.video_url %}
             <div class="video-section">
                 <h3>Відеоматеріал</h3>
@@ -53,7 +53,9 @@
         <div class="tests-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3 style="margin: 0;">Тестування за матеріалом</h3>
+                {% if is_teacher %}
                 <a href="{% url 'add_test' lesson.lessons_id %}" class="btn" style="background-color: #27ae60; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">+ Додати тест</a>
+                {% endif %}
             </div>
 
             {% if tests %}

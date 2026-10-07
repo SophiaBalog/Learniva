@@ -11,7 +11,21 @@
         <a href="{% url 'courses_list' %}" class="logo">Learniva</a>
         <ul>
             <li><a href="{% url 'courses_list' %}">Курси</a></li>
-            <li><a href="{% url 'course_create' %}">+ Створити курс</a></li>
+            {% if is_teacher %}
+                <li><a href="{% url 'course_create' %}">+ Створити курс</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <li>Привіт, {{ user.username }}</li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Вийти</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Увійти</a></li>
+                <li><a href="{% url 'signup' %}">Реєстрація</a></li>
+            {% endif %}
         </ul>
     </nav>
 

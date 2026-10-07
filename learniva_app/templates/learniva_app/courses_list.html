@@ -13,7 +13,9 @@
             <p>{{ course.description|truncatewords:20 }}</p>
             <div class="card-actions">
                 <a href="{% url 'course_detail' course.course_id %}" class="btn">Переглянути</a>
+                {% if is_teacher %}
                 <a href="{% url 'course_delete' course.course_id %}" class="btn-danger">Видалити</a>
+                {% endif %}
             </div>
         </div>
     {% empty %}
