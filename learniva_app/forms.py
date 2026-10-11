@@ -6,7 +6,7 @@ from .models import Courses, Lessons, Tests, Questions
 
 
 class CourseForm(forms.ModelForm):
-
+  
   class Meta:
     model = Courses
     fields = ['title', 'description', 'category', 'image']
