@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .permissions import teacher_required
 from .forms import CourseForm, LessonForm, TestForm, QuestionForm
-from .models import Courses, Lessons, Questions, TestResults, Tests, UserCourses
+from .models import Courses, Lessons, Questions, TestResults, Tests
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib import messages
 
 
 def courses_list(request):
@@ -30,6 +31,7 @@ def course_edit(request, course_id):
     form = CourseForm(request.POST or None, instance=course)
     if form.is_valid():
         form.save()
+        messages.success(request, f'Курс «{course.title}» оновлено.')
         return redirect('course_detail', course_id=course.course_id)
     return render(request, 'learniva_app/course_form.html', {'form': form})
 
@@ -92,7 +94,8 @@ def course_create(request):
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
-            form.save()
+            course = form.save()
+            messages.success(request, f'Курс «{course.title}» створено.')
             return redirect('courses_list')
     else:
         form = CourseForm()
@@ -102,7 +105,9 @@ def course_create(request):
 def course_delete(request, course_id):
     course = get_object_or_404(Courses, course_id=course_id)
     if request.method == 'POST':
+        title = course.title
         course.delete()
+        messages.success(request, f'Курс «{title}» видалено.')
         return redirect('courses_list')
     return render(
         request, 'learniva_app/course_confirm_delete.html', {'course': course}
@@ -118,6 +123,7 @@ def add_lesson(request, course_id):
             lesson = form.save(commit=False)
             lesson.courses_course = course
             lesson.save()
+            messages.success(request, f'Урок «{lesson.title}» додано.')
             return redirect('course_detail', course_id=course.course_id)
     else:
         form = LessonForm()
@@ -135,6 +141,7 @@ def edit_lesson(request, lesson_id):
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Урок оновлено.')
             return redirect('lesson_detail', lesson_id=lesson.lessons_id)
     else:
         form = LessonForm(instance=lesson)
@@ -150,6 +157,7 @@ def delete_lesson(request, lesson_id):
     course_id = lesson.courses_course.course_id
     if request.method == 'POST':
         lesson.delete()
+        messages.success(request, 'Урок видалено.')
         return redirect('course_detail', course_id=course_id)
     return render(
         request, 'learniva_app/delete_lesson.html', {'lesson': lesson}
@@ -163,7 +171,9 @@ def add_test(request, lesson_id):
         test = form.save(commit=False)
         test.lessons_lessons = lesson
         test.save()
+        messages.success(request, 'Тест створено. Тепер додайте питання.')
         return redirect('add_question', test_id=test.test_id)
+
     return render(request, 'learniva_app/add_test.html', {'form': form, 'lesson': lesson})
 
 @teacher_required
@@ -174,6 +184,7 @@ def add_question(request, test_id):
         question = form.save(commit=False)
         question.tests_test = test
         question.save()
+        messages.success(request, 'Питання додано.')
         if 'add_more' in request.POST:
             return redirect('add_question', test_id=test.test_id)
         return redirect('lesson_detail', lesson_id=test.lessons_lessons_id)
@@ -184,8 +195,9 @@ def signup(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user = form.save()
-        login(request, user)  
-        return redirect('courses_list')
+        login(request, user)
+        messages.success(request, 'Реєстрація пройшла успішно. Ласкаво просимо!')
+        return redirect('courses_list') 
     return render(request, 'registration/signup.html', {'form': form})
 
 @login_required

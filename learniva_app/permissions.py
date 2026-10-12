@@ -13,8 +13,8 @@ def teacher_required(view):
     @wraps(view)
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect_to_login(request.get_full_path())  # не увійшов → на сторінку входу
+            return redirect_to_login(request.get_full_path()) 
         if not is_teacher(request.user):
-            raise PermissionDenied                              # учень → помилка 403
+            raise PermissionDenied                           
         return view(request, *args, **kwargs)
     return wrapper

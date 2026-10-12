@@ -11,6 +11,10 @@
         <a href="{% url 'courses_list' %}" class="logo">Learniva</a>
         <ul>
             <li><a href="{% url 'courses_list' %}">Курси</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'my_results' %}">Мої результати</a></li>
+            {% endif %}
+
             {% if is_teacher %}
                 <li><a href="{% url 'course_create' %}">+ Створити курс</a></li>
             {% endif %}
@@ -30,6 +34,14 @@
     </nav>
 
     <div class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </div>
 </body>
