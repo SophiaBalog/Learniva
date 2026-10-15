@@ -1,25 +1,19 @@
 from django.urls import path
-from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='courses_list', permanent=False)),
-
-    path('courses/', views.courses_list, name='courses_list'),
-    path('courses/add/', views.course_create, name='course_create'),
-    path('courses/<int:course_id>/', views.course_detail, name='course_detail'),
-    path('courses/<int:course_id>/edit/', views.course_edit, name='course_edit'),
-    path('courses/<int:course_id>/delete/', views.course_delete, name='course_delete'),
-    path('courses/<int:course_id>/add-lesson/', views.add_lesson, name='add_lesson'),
-
-    path('lessons/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
-    path('lessons/<int:lesson_id>/edit/', views.edit_lesson, name='edit_lesson'),
-    path('lessons/<int:lesson_id>/delete/', views.delete_lesson, name='delete_lesson'),
-    path('lessons/<int:lesson_id>/add-test/', views.add_test, name='add_test'),
-
-    path('tests/<int:test_id>/', views.test_detail, name='test_detail'),
-    path('tests/<int:test_id>/add-question/', views.add_question, name='add_question'),
-    path('my-results/', views.my_results, name='my_results'),
-    
-    path('signup/', views.signup, name='signup'),
+    path('', views.CourseListView.as_view(), name='courses_list'),
+    path('courses/<int:course_id>/', views.CourseDetailView.as_view(), name='course_detail'),
+    path('courses/create/', views.CourseCreateView.as_view(), name='course_create'),
+    path('courses/<int:course_id>/edit/', views.CourseUpdateView.as_view(), name='course_edit'),
+    path('courses/<int:course_id>/delete/', views.CourseDeleteView.as_view(), name='course_delete'),
+    path('courses/<int:course_id>/lessons/add/', views.LessonCreateView.as_view(), name='add_lesson'),
+    path('lessons/<int:lesson_id>/', views.LessonDetailView.as_view(), name='lesson_detail'),
+    path('lessons/<int:lesson_id>/edit/', views.LessonUpdateView.as_view(), name='edit_lesson'),
+    path('lessons/<int:lesson_id>/delete/', views.LessonDeleteView.as_view(), name='delete_lesson'),
+    path('lessons/<int:lesson_id>/tests/add/', views.TestCreateView.as_view(), name='add_test'),
+    path('tests/<int:test_id>/', views.TestDetailView.as_view(), name='test_detail'),
+    path('tests/<int:test_id>/questions/add/', views.QuestionCreateView.as_view(), name='add_question'),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('my-results/', views.MyResultsView.as_view(), name='my_results'),
 ]
