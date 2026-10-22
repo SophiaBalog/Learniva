@@ -55,3 +55,26 @@ def test_register(driver):
     check.is_in(f'Привіт, {USER_NAME}', text)
     check.is_in('Вийти', text)
 
+
+
+def test_login_with_wrong_password(driver):
+    username = f'student_{int(time.time())}'
+    register(driver, username)
+    driver.find_element(By.XPATH, "//button[normalize-space(.)='Вийти']").click()
+ 
+    driver.get(f'{URL}/accounts/login/')
+    driver.find_element(By.ID, 'id_username').send_keys(username)
+    driver.find_element(By.ID, 'id_password').send_keys('WrongPass123')
+    driver.find_element(By.CSS_SELECTOR, 'form button.btn').click()
+ 
+    error = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '.errorlist'))
+    )
+    text = page_text(driver)
+    check.is_true(error.is_displayed())
+    check.is_true(driver.current_url.endswith('/accounts/login/'))
+    check.equal(driver.find_element(By.ID, 'id_password').get_attribute('value'), '')
+    check.is_not_in(f'Привіт, {username}', text)
+    check.is_not_in('Вийти', text)
+    check.is_in('Реєстрація', text)
+ 
