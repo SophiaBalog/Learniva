@@ -13,3 +13,5 @@ __pycache__/
 
 media/
 staticfiles/
+
+dump.sql
