@@ -20,21 +20,23 @@
                 <a href="{% url 'delete_lesson' lesson.lessons_id %}" class="btn-danger" style="background-color: #e74c3c; color: white; text-decoration: none; padding: 8px 16px; border-radius: 5px;">Видалити</a>
             </div>
             {% endif %}
-        </div>
+            </div>
 
             {% if lesson.video_url %}
                 <div class="video-section">
                     <h3>Відеоматеріал</h3>
                     <div class="video-wrapper">
                         {% if lesson.embed_url %}
-                <iframe src="{{ lesson.embed_url }}" title="{{ lesson.title }}"
-                    frameborder="0" allowfullscreen
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-            {% else %}
+                            <iframe src="{{ lesson.embed_url }}" title="{{ lesson.title }}"
+                                frameborder="0" allowfullscreen
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        {% else %}
+                            <p>Посилання на відео: <a href="{{ lesson.video_url }}" target="_blank" rel="noopener">{{ lesson.video_url }}</a></p>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
 
         <div class="lesson-body" style="margin-top: 20px;">
             <h3>Зміст уроку</h3>
