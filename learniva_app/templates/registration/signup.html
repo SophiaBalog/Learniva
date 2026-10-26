@@ -5,7 +5,9 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn">Зареєструватися</button>
-         <div class="social">
+    </form>
+
+    <div class="social">
         <ul>
             <li class="google">
                 <form action="{% url 'social:begin' 'google-oauth2' %}" method="post">
@@ -16,5 +18,4 @@
             </li>
         </ul>
     </div>
-    </form>
 {% endblock %}
