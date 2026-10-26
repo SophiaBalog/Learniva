@@ -14,6 +14,12 @@ from pathlib import Path
 import os
 import pymysql
 
+from decouple import config
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET')
+
 pymysql.version_info = (2, 2, 8, "final", 0)
 pymysql.install_as_MySQLdb()
 
@@ -51,7 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'learniva_app'
+    'django_extensions',
+    'learniva_app',
+    'social_django'
 ]
 
 MIDDLEWARE = [

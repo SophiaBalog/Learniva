@@ -40,7 +40,7 @@ class Lessons(models.Model):
     def embed_url(self):
         if not self.video_url:
             return None
-        match = re.search(r'(?:youtu\.be/|v=|embed/)([\w-]{11})', self.video_url)
+        match = re.search(r'(?:youtu\.be/|v=|embed/|live/|shorts/)([\w-]{11})', self.video_url)
         return f'https://www.youtube.com/embed/{match.group(1)}' if match else None
 
 

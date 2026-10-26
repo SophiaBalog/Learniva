@@ -21,4 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("learniva_app.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
+    path(
+        'social-auth/',
+        include('social_django.urls', namespace='social')
+    )
 ]

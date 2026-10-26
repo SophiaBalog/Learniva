@@ -16,7 +16,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 URL = "http://127.0.0.1:8000/"
 PASSWORD = "Str0ng!Pass2026"
 WRONG_PASS = 'WrongPass123'
-USER_NAME = f'student_test'
 
 @pytest.fixture()
 def driver():
@@ -46,13 +45,14 @@ def register(driver, username):
 
 
 def test_register(driver):
-    register(driver,USER_NAME)
+    username = f"student_{int(time.time())}"
+    register(driver,username)
 
     text = page_text(driver)
 
     check.equal(driver.current_url, f'{URL}')
     check.is_in('Реєстрація пройшла успішно', text)
-    check.is_in(f'Привіт, {USER_NAME}', text)
+    check.is_in(f'Привіт, {username}', text)
     check.is_in('Вийти', text)
 
 
