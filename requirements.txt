@@ -5,3 +5,4 @@ PyMySQL
 cryptography
 python-decouple
 django_extensions
+social_django
