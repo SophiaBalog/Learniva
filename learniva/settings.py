@@ -195,3 +195,13 @@ MAILERS = {
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'courses_list'
 LOGOUT_REDIRECT_URL = 'courses_list'
+
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
