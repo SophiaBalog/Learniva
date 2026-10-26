@@ -11,9 +11,11 @@
     <div class="social">
         <ul>
             <li class="google">
-                <a href="{% url 'social:begin' 'google-oauth2' %}">
-                Sign in with Google
-                </a>
+                <form action="{% url 'social:begin' 'google-oauth2' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <button type="submit" class="btn">Увійти через Google</button>
+                </form>
             </li>
         </ul>
     </div>
