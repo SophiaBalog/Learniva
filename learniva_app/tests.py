@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 # Create your tests here.
 
-URL = "http://127.0.0.1:8000/"
+URL = "http://127.0.0.1:8000"
 PASSWORD = "Str0ng!Pass2026"
 WRONG_PASS = 'WrongPass123'
 
