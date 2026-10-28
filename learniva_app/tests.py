@@ -50,7 +50,7 @@ def test_register(driver):
 
     text = page_text(driver)
 
-    check.equal(driver.current_url, f'{URL}')
+    check.equal(driver.current_url, f'{URL}/')
     check.is_in('Реєстрація пройшла успішно', text)
     check.is_in(f'Привіт, {username}', text)
     check.is_in('Вийти', text)
